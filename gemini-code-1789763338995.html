@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday Bestie! 🎉✨</title>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <!-- Canvas Confetti Library -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <style>
+    :root {
+      --bg-dark: #120907;
+      --bg-chocolate: #2b1712;
+      --card-bg: #3d221a;
+      --accent-gold: #e5b869;
+      --accent-rose: #d4838f;
+      --text-light: #f7ebe1;
+      --text-muted: #cbb2a1;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-chocolate) 50%, var(--bg-dark) 100%);
+      color: var(--text-light);
+      font-family: 'Poppins', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Ambient Glow Effects */
+    .glow {
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(229,184,105,0.15) 0%, rgba(0,0,0,0) 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    /* Header / Hero Section */
+    header {
+      text-align: center;
+      padding: 60px 20px 20px;
+      position: relative;
+    }
+
+    h1 {
+      font-family: 'Caveat', cursive;
+      font-size: 3.8rem;
+      color: var(--accent-gold);
+      text-shadow: 2px 4px 10px rgba(0,0,0,0.6);
+      margin-bottom: 10px;
+      animation: float 3s ease-in-out infinite alternate;
+    }
+
+    .subtitle {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+    }
+
+    /* Cute Teddy SVG Banner */
+    .teddy-wrapper {
+      display: flex;
+      justify-content: center;
+      margin: 20px 0 10px;
+    }
+
+    .teddy-svg {
+      width: 140px;
+      height: 140px;
+      filter: drop-shadow(0 8px 16px rgba(0,0,0,0.4));
+      animation: bounce 2s ease-in-out infinite;
+    }
+
+    /* Music Player Control */
+    .music-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 20px 0 40px;
+    }
+
+    .btn-play {
+      background: linear-gradient(45deg, var(--accent-gold), var(--accent-rose));
+      border: none;
+      color: #1a0c08;
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 12px 28px;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(229,184,105,0.3);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-play:hover {
+      transform: translateY(-2px) scale(1.05);
+      box-shadow: 0 6px 20px rgba(229,184,105,0.5);
+    }
+
+    /* Gallery Section */
+    .gallery-title {
+      text-align: center;
+      font-family: 'Caveat', cursive;
+      font-size: 2.5rem;
+      color: var(--accent-rose);
+      margin-bottom: 30px;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 20px 60px;
+    }
+
+    /* Aesthetic Polaroid Style Cards */
+    .polaroid {
+      background: #faf4ee;
+      padding: 15px 15px 25px 15px;
+      border-radius: 8px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      position: relative;
+    }
+
+    .polaroid:nth-child(1) { transform: rotate(-2deg); }
+    .polaroid:nth-child(2) { transform: rotate(1.5deg); }
+    .polaroid:nth-child(3) { transform: rotate(-1deg); }
+
+    .polaroid:hover {
+      transform: translateY(-8px) rotate(0deg) scale(1.02) !important;
+      box-shadow: 0 15px 35px rgba(229,184,105,0.25);
+      z-index: 5;
+    }
+
+    .polaroid-img-box {
+      width: 100%;
+      height: 320px;
+      overflow: hidden;
+      border-radius: 4px;
+      background: #eee;
+    }
+
+    .polaroid-img-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+
+    .polaroid:hover img {
+      transform: scale(1.05);
+    }
+
+    .caption {
+      font-family: 'Caveat', cursive;
+      font-size: 1.5rem;
+      color: #331d17;
+      text-align: center;
+      margin-top: 15px;
+    }
+
+    /* Heart Message Box */
+    .message-card {
+      max-width: 800px;
+      margin: 20px auto 80px;
+      background: rgba(61, 34, 26, 0.7);
+      border: 1px solid rgba(229, 184, 105, 0.3);
+      backdrop-filter: blur(8px);
+      border-radius: 20px;
+      padding: 40px;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+    }
+
+    .message-card h2 {
+      font-family: 'Caveat', cursive;
+      font-size: 2.8rem;
+      color: var(--accent-gold);
+      margin-bottom: 15px;
+    }
+
+    .message-card p {
+      line-height: 1.8;
+      font-size: 1.05rem;
+      color: var(--text-light);
+    }
+
+    .btn-celebrate {
+      margin-top: 25px;
+      background: transparent;
+      border: 2px solid var(--accent-gold);
+      color: var(--accent-gold);
+      padding: 10px 24px;
+      border-radius: 30px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-celebrate:hover {
+      background: var(--accent-gold);
+      color: #1a0c08;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+
+    /* Keyframe Animations */
+    @keyframes float {
+      from { transform: translateY(0px); }
+      to { transform: translateY(-8px); }
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background Light FX -->
+  <div class="glow" style="top: 10%; left: 5%;"></div>
+  <div class="glow" style="top: 60%; right: 5%;"></div>
+
+  <!-- Header -->
+  <header>
+    <h1>Happy Birthday! 🎂✨</h1>
+    <p class="subtitle">To an amazing friend, partner in crime, and forever buddy!</p>
+  </header>
+
+  <!-- Cute Teddy SVG Illustration -->
+  <div class="teddy-wrapper">
+    <svg class="teddy-svg" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Ears -->
+      <circle cx="55" cy="55" r="25" fill="#8B4513"/>
+      <circle cx="55" cy="55" r="15" fill="#D2B48C"/>
+      <circle cx="145" cy="55" r="25" fill="#8B4513"/>
+      <circle cx="145" cy="55" r="15" fill="#D2B48C"/>
+      <!-- Head -->
+      <circle cx="100" cy="95" r="55" fill="#A0522D"/>
+      <!-- Muzzle -->
+      <ellipse cx="100" cy="110" rx="25" ry="18" fill="#F5DEB3"/>
+      <ellipse cx="100" cy="102" rx="10" ry="7" fill="#3D221A"/>
+      <!-- Eyes -->
+      <circle cx="80" cy="85" r="6" fill="#1A0C08"/>
+      <circle cx="120" cy="85" r="6" fill="#1A0C08"/>
+      <circle cx="82" cy="83" r="2" fill="#FFFFFF"/>
+      <circle cx="122" cy="83" r="2" fill="#FFFFFF"/>
+      <!-- Cute Cheeks -->
+      <ellipse cx="70" cy="100" rx="8" ry="5" fill="#E68A8A" opacity="0.6"/>
+      <ellipse cx="130" cy="100" rx="8" ry="5" fill="#E68A8A" opacity="0.6"/>
+      <!-- Birthday Party Hat -->
+      <polygon points="100,20 75,60 125,60" fill="#E5B869"/>
+      <circle cx="100" cy="20" r="6" fill="#D4838F"/>
+      <path d="M 80,60 Q 100,45 120,60" stroke="#D4838F" stroke-width="3" fill="none"/>
+    </svg>
+  </div>
+
+  <!-- Birthday Music Controls -->
+  <div class="music-bar">
+    <button class="btn-play" onclick="toggleAudio()">
+      <span id="play-icon">▶</span> <span id="play-text">Play Birthday Song</span>
+    </button>
+    <!-- Public License Royalty Free Birthday Track -->
+    <audio id="bg-music" loop preload="auto">
+      <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73229.mp3?filename=happy-birthday-155461.mp3" type="audio/mpeg">
+    </audio>
+  </div>
+
+  <!-- Gallery Section -->
+  <h2 class="gallery-title">Memories & Special Moments 📸</h2>
+  <div class="gallery-grid">
+    
+    <div class="polaroid">
+      <div class="polaroid-img-box">
+        <img src="photo1.jpg" alt="Special Moment 1">
+      </div>
+      <div class="caption">Jenga strategy sessions! 🧩</div>
+    </div>
+
+    <div class="polaroid">
+      <div class="polaroid-img-box">
+        <img src="photo2.jpg" alt="Special Moment 2">
+      </div>
+      <div class="caption">Always caught mid-conversation 💬</div>
+    </div>
+
+    <div class="polaroid">
+      <div class="polaroid-img-box">
+        <img src="photo3.jpg" alt="Special Moment 3">
+      </div>
+      <div class="caption">Cool drinks & quick selfies 🍹</div>
+    </div>
+
+  </div>
+
+  <!-- Birthday Message Card -->
+  <div class="message-card">
+    <h2>To My Amazing Friend 🥳</h2>
+    <p>
+      Wishing you a day filled with endless laughter, delicious food, and all the happiness in the world! 
+      Thank you for being such an awesome friend, for all the fun hangouts, and for creating so many hilarious memories together. 
+      May this year bring you all the success, joy, and wonderful adventures you deserve! ✨
+    </p>
+    <button class="btn-celebrate" onclick="triggerConfetti()">Celebrate! 🎉</button>
+  </div>
+
+  <footer>
+    Made with ❤️ for your special day
+  </footer>
+
+  <script>
+    // Music Player Logic
+    const audio = document.getElementById('bg-music');
+    const playIcon = document.getElementById('play-icon');
+    const playText = document.getElementById('play-text');
+
+    function toggleAudio() {
+      if (audio.paused) {
+        audio.play();
+        playIcon.textContent = '❚❚';
+        playText.textContent = 'Pause Music';
+        triggerConfetti();
+      } else {
+        audio.pause();
+        playIcon.textContent = '▶';
+        playText.textContent = 'Play Birthday Song';
+      }
+    }
+
+    // Interactive Celebration Confetti Effect
+    function triggerConfetti() {
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 },
+        colors: ['#e5b869', '#d4838f', '#ffffff', '#3d221a']
+      });
+    }
+
+    // Auto trigger soft confetti on load
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        triggerConfetti();
+      }, 500);
+    });
+  </script>
+</body>
+</html>
